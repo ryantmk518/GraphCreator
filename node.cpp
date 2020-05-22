@@ -5,27 +5,18 @@ using namespace std;
 
 //Node class
 
-Node::Node(char newName) {
+Node::Node(char* newName) {
   name = newName;
-  adj = NULL;
 }
 
 Node::~Node() {
-  adj = NULL;
+  
 }
 
-void Node::setName(char newName) {
+void Node::setName(char* newName) {
   name = newName;
 }
 
-void Node::setAdj(Node* newNode) {
-  adj = newNode;
-}
-
-Node* Node::getAdj() {
-  return adj;
-}
-
-char Node::getName() {
+char* Node::getName() {
   return name;
 }

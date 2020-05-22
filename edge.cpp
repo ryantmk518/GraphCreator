@@ -1,5 +1,6 @@
 #include <iostream>
 #include "edge.h"
+#include "node.h"
 
 using namespace std;
 

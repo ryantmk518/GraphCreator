@@ -4,17 +4,16 @@
 
 using namespace std;
 
+//Node Header: Intializes functions and variables
+
 class Node{
  public:
-  Node(char);
+  Node(char* );
   ~Node();
-  void setName(char);
-  void setAdj(Node*);
-  char getName();
-  Node* getAdj();
+  char* getName();
+  void setName(char*);
  private:
-  char name;
-  Node* adj;
+  char* name;
 };
 
 #endif
