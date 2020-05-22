@@ -18,16 +18,18 @@ int main() {
   vector<Node*> vertex;
   vector<Edge*> edge;
   bool quit = false;
+  int vertices = 0;
   while (quit == false) {
     cout << "Enter Add Vertex, Add Edge, Remove Vertex, Remove Edge, Print, Quit" << endl;
     char* in = new char[999];
     cin.getline(in, 999);
     if (strcmp(in, "Add Vertex") == 0) {
-      cout << "Enter vertex name" << endl;
+      cout << "Enter vertex name (Please only one character long)" << endl;
       char* name = new char[99];
       cin.getline(name, 99);
       Node* node = new Node(name); //Creating vertex and adding to the vector
       vertex.push_back(node);
+      vertices++;
     }
     else if (strcmp(in, "Add Edge") == 0) {
       cout << "Enter start node" << endl;
@@ -76,6 +78,7 @@ int main() {
           cout << "Found erase" << endl;
           found = true;
           vertex.erase(i);
+          vertices--;
         }
         else {
           i++;
@@ -95,10 +98,70 @@ int main() {
       }
     }
     else if (strcmp(in, "Remove Edge") == 0) {
-      cout << "Removing edge" << endl;
+      cout << "Enter name of edge to remove" << endl;
+      char* redge = new char[99];
+      cin.getline(redge, 99);
+      vector<Edge*> :: iterator a = edge.begin();
+      while (a != edge.end()) {
+        if (strcmp((*a) -> getStart() -> getName(), redge) == 0 || strcmp((*a) -> getEnd() -> getName(), redge) == 0) {
+          edge.erase(a);
+        }
+        else {
+          a++;
+        }
+      }
     }
-    else if (strcmp(in, "Print") == 0) {
+    else if (strcmp(in, "Print") == 0) { //My brain hurty why did i do this its not even necessary
       cout << "Printing" << endl;
+      cout << "    ";
+      vector<Node*> :: iterator iter;
+      for (iter = vertex.begin(); iter != vertex.end(); iter++) {
+        cout << (*iter) -> getName() << "    ";
+      }
+      cout << '\n'<< endl;
+
+
+      for (int b = 0; b < vertices; b++) { //b is row number
+        int y = 0;
+        char* column = new char[99];
+        //Gets the column letter
+        vector<Node*> :: iterator x;
+        for (x = vertex.begin(); x != vertex.end(); x++) {
+          if (b == y) {
+            cout << (*x) -> getName() << "   ";
+            column = (*x) -> getName();
+            y++;
+          }
+          else {
+            y++;
+          }
+        }
+        for (int v = 0; v < vertices; v++) { //Column number
+          int c = 0;
+          vector<Node*> :: iterator iterate;
+          for (iterate = vertex.begin(); iterate != vertex.end(); iterate++) {
+            if (c == v) {
+              //Check if has edge
+              bool hasEdge = false;
+              vector<Edge*> :: iterator iterating;
+              for (iterating = edge.begin(); iterating != edge.end(); iterating++) {
+                if (strcmp((*iterating) -> getStart()->getName(), (*iterate) -> getName()) == 0 && strcmp((*iterating) -> getEnd()->getName(), column) == 0) {
+                  hasEdge = true;
+                }
+              }
+              if (hasEdge == true) {
+                cout << (*iterating) -> getWeight() << "   ";
+              }
+              c++;
+            }
+            else{
+              c++;
+            }
+          }
+        }
+        cout << '\n' << endl;
+      }
+      cout << endl;
     }
     else if (strcmp(in, "Quit") == 0) {
       quit = true;
