@@ -69,17 +69,29 @@ int main() {
       cout << "Enter name of vertex to remove" << endl;
       char* remove = new char[99];
       cin.getline(remove, 99);
-      vector<Node*> :: iterator i;
+      vector<Node*> :: iterator i = vertex.begin();
       bool found = false;
-      for (i = vertex.begin(); i != vertex.end(); i++) {
+      while (i != vertex.end()) {
         if (strcmp((*i) -> getName(), remove) == 0) {
-          bool found = true;
+          cout << "Found erase" << endl;
+          found = true;
           vertex.erase(i);
         }
+        else {
+          i++;
+        }
       }
-      vector<Edge*> :: iterator ite;
-      for (ite = edge.begin(); ite != edge.end(); ite++) {
-        
+      if (found == false) {
+        cout << "Vertex doesn't exist" << endl;
+      }
+      vector<Edge*> :: iterator ite = edge.begin();
+      while (ite != edge.end()) {
+        if (strcmp((*ite) -> getStart() -> getName(), remove) == 0 || strcmp((*ite) -> getEnd() -> getName(), remove) == 0) {
+          edge.erase(ite);
+        }
+        else {
+          i++;
+        }
       }
     }
     else if (strcmp(in, "Remove Edge") == 0) {
