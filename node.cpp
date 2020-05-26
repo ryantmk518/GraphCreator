@@ -1,5 +1,6 @@
 #include <iostream>
 #include "node.h"
+#include <vector>
 
 using namespace std;
 
@@ -20,3 +21,12 @@ void Node::setName(char* newName) {
 char* Node::getName() {
   return name;
 }
+
+void Node::setAdj(Node* newAdj) {
+  adj.push_back(newAdj);
+}
+
+vector<Node*> Node::getAdj() {
+  return adj;
+}
+

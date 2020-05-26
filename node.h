@@ -1,6 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -12,8 +13,11 @@ class Node{
   ~Node();
   char* getName();
   void setName(char*);
+  void setAdj(Node*);
+  vector<Node*> getAdj();
  private:
   char* name;
+  vector<Node*> adj;
 };
 
 #endif

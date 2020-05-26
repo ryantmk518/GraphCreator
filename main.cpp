@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void addEdge(Node* start, Node* end);
+bool checkConnect(Node* begin, Node* stop);
 
 int main() {
   vector<Node*> vertex;
@@ -20,7 +20,7 @@ int main() {
   bool quit = false;
   int vertices = 0;
   while (quit == false) {
-    cout << "Enter Add Vertex, Add Edge, Remove Vertex, Remove Edge, Print, Quit" << endl;
+    cout << "Enter Add Vertex, Add Edge, Remove Vertex, Remove Edge, Shortest Path, Print, Quit" << endl;
     char* in = new char[999];
     cin.getline(in, 999);
     if (strcmp(in, "Add Vertex") == 0) {
@@ -45,16 +45,15 @@ int main() {
       vector<Node*> :: iterator it;
       for (it = vertex.begin(); it != vertex.end(); it++) {
         if (strcmp((*it) ->  getName(), start) == 0) {
-          cout << "Found start" << endl;
           valid1 = true;
           first = *(it);
         }
         else if (strcmp((*it) -> getName(), end) == 0) {
-          cout << "Found end" << endl;
           valid2 = true;
           last = *(it);
         }
       }
+      first->setAdj(last);
       if (valid1 == true && valid2 == true) {
         cout << "Enter weight of edge" << endl;
         char* weight = new char[99];
@@ -111,7 +110,7 @@ int main() {
         }
       }
     }
-    else if (strcmp(in, "Print") == 0) { //My brain hurty why did i do this its not even necessary
+    else if (strcmp(in, "Print") == 0) { 
       cout << "Printing" << endl;
       cout << "    ";
       vector<Node*> :: iterator iter;
@@ -119,7 +118,50 @@ int main() {
         cout << (*iter) -> getName() << "    ";
       }
       cout << '\n'<< endl;
+      vector<Node*> :: iterator x;
+      for (x = vertex.begin(); x != vertex.end(); x++) { //Each row
+        cout << (*x)->getName() << "   ";
+        vector<Node*> :: iterator y;
+        for (y = vertex.begin(); y != vertex.end(); y++) {
+          if (checkConnect((*x),(*y)) == true) {
+            cout << "T   ";
+          }
+          else {
+            cout << "F   ";
+          }
+        }
+        cout << '\n' << endl;
+      }
+    }
+    else if (strcmp(in, "Shortest Path") == 0) {
+      cout << "Finding shortest path" << endl;
+      int graph[][] = new int[vertices][vertices];
+      for (int r = 0; r < vertices; r++) {
+        
+      }
+    }
+  
 
+
+
+
+
+
+
+
+
+
+
+      //oop I small brained
+      /*
+      cout << "Printing" << endl;
+      cout << "    ";
+      vector<Node*> :: iterator iter;
+      for (iter = vertex.begin(); iter != vertex.end(); iter++) {
+        cout << (*iter) -> getName() << "    ";
+      }
+      cout << '\n'<< endl;
+      
 
       for (int b = 0; b < vertices; b++) { //b is row number
         int y = 0;
@@ -162,9 +204,23 @@ int main() {
         cout << '\n' << endl;
       }
       cout << endl;
-    }
+      }*/
     else if (strcmp(in, "Quit") == 0) {
       quit = true;
+      break;
     }
   }
+}
+
+bool checkConnect(Node* begin, Node* stop) {
+  vector<Node*> :: iterator n;
+  for (n = begin->getAdj().begin(); n != begin->getAdj().end(); n++) {
+    if (strcmp((*n)->getName(), stop->getName()) == 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  return false;
 }
