@@ -22,11 +22,11 @@ char* Node::getName() {
   return name;
 }
 
-void Node::setAdj(Node* newAdj) {
+void Node::setAdj(char* newAdj) {
   adj.push_back(newAdj);
 }
 
-vector<Node*> Node::getAdj() {
+vector<char*> Node::getAdj() {
   return adj;
 }
 

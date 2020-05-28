@@ -14,6 +14,9 @@ using namespace std;
 
 bool checkConnect(Node* begin, Node* stop);
 
+
+
+
 int main() {
   vector<Node*> vertex;
   vector<Edge*> edge;
@@ -53,7 +56,7 @@ int main() {
           last = *(it);
         }
       }
-      first->setAdj(last);
+      first->setAdj(end);
       if (valid1 == true && valid2 == true) {
         cout << "Enter weight of edge" << endl;
         char* weight = new char[99];
@@ -115,15 +118,17 @@ int main() {
       cout << "    ";
       vector<Node*> :: iterator iter;
       for (iter = vertex.begin(); iter != vertex.end(); iter++) {
-        cout << (*iter) -> getName() << "    ";
+        cout << (*iter) -> getName() << "   ";
       }
       cout << '\n'<< endl;
       vector<Node*> :: iterator x;
       for (x = vertex.begin(); x != vertex.end(); x++) { //Each row
-        cout << (*x)->getName() << "   ";
+        Node* newNode = (*x);
+        cout << newNode->getName() << "   ";
         vector<Node*> :: iterator y;
         for (y = vertex.begin(); y != vertex.end(); y++) {
-          if (checkConnect((*x),(*y)) == true) {
+          if (checkConnect((newNode),(*y)) == true) {
+
             cout << "T   ";
           }
           else {
@@ -133,14 +138,21 @@ int main() {
         cout << '\n' << endl;
       }
     }
-    else if (strcmp(in, "Shortest Path") == 0) {
-      cout << "Finding shortest path" << endl;
-      int graph[][] = new int[vertices][vertices];
-      for (int r = 0; r < vertices; r++) {
-        
+
+    else if (strcmp(in, "Test") == 0) {
+      vector<Edge*> :: iterator iterator;
+      for (iterator = edge.begin(); iterator != edge.end(); iterator++) {
+        cout << (*iterator) -> getStart() -> getName() << ", " << (*iterator) -> getEnd() -> getName() << endl;
+      }
+      vector<Node*> :: iterator itr;
+      for (itr = vertex.begin(); itr != vertex.end(); itr++) {
+        vector<char*> newVector = (*itr) -> getAdj();
+        vector<char*> :: iterator itt;
+        for (itt = newVector.begin(); itt != newVector.end(); itt++) {
+          cout << (*itt)  << endl;
+        }
       }
     }
-  
 
 
 
@@ -205,22 +217,49 @@ int main() {
       }
       cout << endl;
       }*/
+
+
+    else if (strcmp(in, "Shortest Path") == 0) { //With help from geeks for geeks
+      cout << "Enter start node" << endl;
+      char* Start = new char[99];
+      cin.getline(Start, 99);
+      cout << "Enter end node" << endl;
+      char* End = new char[99];
+      cin.getline(End, 99);
+      vector<vector<Node*>> paths;
+      vector<Node*> temp1;
+      vector<Node*> temp2;
+      vector<Node*> temp3;
+      vector<Node*> temp4;
+      vector<int> length;
+      bool complete = false;
+      vector<Node*> :: iterator m;
+      for (m = vertex.begin(); m != vertex.end(); m++) {
+        if (strcmp((*m)->getName(), Start) == 0) {
+          temp4.push_back((*m));
+        }
+      }
+    }
+
     else if (strcmp(in, "Quit") == 0) {
       quit = true;
       break;
     }
   }
 }
+    
 
 bool checkConnect(Node* begin, Node* stop) {
-  vector<Node*> :: iterator n;
-  for (n = begin->getAdj().begin(); n != begin->getAdj().end(); n++) {
-    if (strcmp((*n)->getName(), stop->getName()) == 0) {
+  vector<char*> newVector = begin->getAdj();
+  vector<char*> :: iterator n;
+  for (n = newVector.begin(); n != newVector.end(); n++) {
+    if (strcmp((*n), stop->getName()) == 0) {
       return true;
     }
     else {
-      return false;
+  
     }
   }
   return false;
 }
+

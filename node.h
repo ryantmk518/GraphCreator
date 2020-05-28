@@ -13,11 +13,11 @@ class Node{
   ~Node();
   char* getName();
   void setName(char*);
-  void setAdj(Node*);
-  vector<Node*> getAdj();
+  void setAdj(char*);
+  vector<char*> getAdj();
  private:
   char* name;
-  vector<Node*> adj;
+  vector<char*> adj;
 };
 
 #endif
