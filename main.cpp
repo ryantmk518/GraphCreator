@@ -100,7 +100,7 @@ int main() {
           edge.erase(ite);
         }
         else {
-          i++;
+          ite++;
         }
       }
     }
@@ -251,7 +251,7 @@ int main() {
       vector<Node*> :: iterator m;
       for (m = vertex.begin(); m != vertex.end(); m++) {
         if (strcmp((*m)->getName(), Start) == 0) {
-          temp4.push_back((*m));
+          temp1.push_back((*m));
         }
       }
     }
