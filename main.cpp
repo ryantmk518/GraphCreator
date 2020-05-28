@@ -77,6 +77,11 @@ int main() {
       bool found = false;
       while (i != vertex.end()) {
         if (strcmp((*i) -> getName(), remove) == 0) {
+          Node* dNode = (*i);
+          vector<Node*> :: iterator o;
+          for (o = vertex.begin(); o != vertex.end(); o++) {
+            (*o)->removeAdj(remove);
+          }
           cout << "Found erase" << endl;
           found = true;
           vertex.erase(i);
@@ -100,12 +105,22 @@ int main() {
       }
     }
     else if (strcmp(in, "Remove Edge") == 0) {
-      cout << "Enter name of edge to remove" << endl;
-      char* redge = new char[99];
-      cin.getline(redge, 99);
+      cout << "Enter name of start node to remove" << endl;
+      char* rstart = new char[99];
+      cin.getline(rstart, 99);
+      cout << "Enter name of end node to remove" << endl;
+      char* rend = new char[99];
+      cin.getline(rend, 99);
+      vector<Node*> :: iterator p;
+      for (p = vertex.begin(); p != vertex.end(); p++) {
+        if (strcmp((*p) -> getName(), rstart) == 0) {
+          (*p) -> removeAdj(rend);
+        }
+      }
+      
       vector<Edge*> :: iterator a = edge.begin();
       while (a != edge.end()) {
-        if (strcmp((*a) -> getStart() -> getName(), redge) == 0 || strcmp((*a) -> getEnd() -> getName(), redge) == 0) {
+        if (strcmp((*a) -> getStart() -> getName(), rstart) == 0 && strcmp((*a) -> getEnd() -> getName(), rend) == 0) {
           edge.erase(a);
         }
         else {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "node.h"
 #include <vector>
+#include <cstring>
 
 using namespace std;
 
@@ -28,5 +29,17 @@ void Node::setAdj(char* newAdj) {
 
 vector<char*> Node::getAdj() {
   return adj;
+}
+
+void Node::removeAdj(char* remove) {
+  vector<char*> :: iterator ite1 = adj.begin();
+  while (ite1 != adj.end()) {
+    if (strcmp((*ite1), remove) == 0) {
+      adj.erase(ite1);
+    }
+    else {
+      ite1++;
+    }
+  }
 }
 

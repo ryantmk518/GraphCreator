@@ -15,6 +15,7 @@ class Node{
   void setName(char*);
   void setAdj(char*);
   vector<char*> getAdj();
+  void removeAdj(char*);
  private:
   char* name;
   vector<char*> adj;
