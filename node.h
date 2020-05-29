@@ -13,12 +13,17 @@ class Node{
   ~Node();
   char* getName();
   void setName(char*);
-  void setAdj(char*);
-  vector<char*> getAdj();
+  void setAdj(Node*);
+  vector<Node*> getAdj();
   void removeAdj(char*);
+  void setWeight(int);
+  vector<int> getWeight();
+  void replaceAdj(vector<Node*>);
+  void replaceWeight(vector<int>);
  private:
+  vector<int> weights;
   char* name;
-  vector<char*> adj;
+  vector<Node*> adj;
 };
 
 #endif

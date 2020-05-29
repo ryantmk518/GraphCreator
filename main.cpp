@@ -7,6 +7,9 @@
 #include <vector>
 #include "stdlib.h"
 #include "assert.h"
+#include <climits>
+
+
 
 //Graph Creator. Ryan Thammakhoune
 
@@ -56,7 +59,7 @@ int main() {
           last = *(it);
         }
       }
-      first->setAdj(end);
+      first->setAdj(last);
       if (valid1 == true && valid2 == true) {
         cout << "Enter weight of edge" << endl;
         char* weight = new char[99];
@@ -64,12 +67,14 @@ int main() {
         int w = atoi (weight);
         Edge* newEdge = new Edge(w, first, last);
         edge.push_back(newEdge);
+        first->setWeight(w);
       }
       else {
         cout << "One of the nodes entered does not exist" << endl;
       }
     }
     else if (strcmp(in, "Remove Vertex") == 0) {
+      Node* temp = new Node(NULL);
       cout << "Enter name of vertex to remove" << endl;
       char* remove = new char[99];
       cin.getline(remove, 99);
@@ -77,12 +82,7 @@ int main() {
       bool found = false;
       while (i != vertex.end()) {
         if (strcmp((*i) -> getName(), remove) == 0) {
-          Node* dNode = (*i);
-          vector<Node*> :: iterator o;
-          for (o = vertex.begin(); o != vertex.end(); o++) {
-            (*o)->removeAdj(remove);
-          }
-          cout << "Found erase" << endl;
+          temp = (*i);
           found = true;
           vertex.erase(i);
           vertices--;
@@ -91,10 +91,27 @@ int main() {
           i++;
         }
       }
+      vector<Node*> :: iterator ite2;
+      for (ite2=vertex.begin();ite2 != vertex.end(); ite2++) {
+        vector<Node*> adjEdge = (*ite2)->getAdj();
+        vector<int> adjWeight = (*ite2)->getWeight();
+        int counting = -1;
+        vector<Node*> :: iterator ite3;
+        for (ite3 = adjEdge.begin(); ite3 != adjEdge.end(); ite3++) {
+          counting++;
+          if ((*ite3) == temp) {
+            adjEdge.erase(ite3);
+            adjWeight.erase(adjWeight.begin() + counting);
+            (*ite3)->replaceAdj(adjEdge);
+            (*ite3)->replaceWeight(adjWeight);
+            break;
+          }
+        }
+      }
       if (found == false) {
         cout << "Vertex doesn't exist" << endl;
       }
-      vector<Edge*> :: iterator ite = edge.begin();
+      vector<Edge*> :: iterator ite = edge.begin(); //Finds every edge that contains the vertex and deletes it
       while (ite != edge.end()) {
         if (strcmp((*ite) -> getStart() -> getName(), remove) == 0 || strcmp((*ite) -> getEnd() -> getName(), remove) == 0) {
           edge.erase(ite);
@@ -105,6 +122,7 @@ int main() {
       }
     }
     else if (strcmp(in, "Remove Edge") == 0) {
+
       cout << "Enter name of start node to remove" << endl;
       char* rstart = new char[99];
       cin.getline(rstart, 99);
@@ -112,13 +130,25 @@ int main() {
       char* rend = new char[99];
       cin.getline(rend, 99);
       vector<Node*> :: iterator p;
-      for (p = vertex.begin(); p != vertex.end(); p++) {
+      for (p = vertex.begin(); p != vertex.end(); p++) { //Delete from the adjacency list
         if (strcmp((*p) -> getName(), rstart) == 0) {
-          (*p) -> removeAdj(rend);
+          Node* v1 = (*p);
+          vector<Node*> adjE = v1 -> getAdj();
+          vector<int> adjW = v1 -> getWeight();
+          vector<Node*> :: iterator ite4;
+          int counter = -1;
+          for (ite4 = adjE.begin(); ite4 != adjE.end(); ite4++) {
+            counter++;
+            if (strcmp((*ite4)->getName(), rend) == 0) {
+              adjW.erase(adjW.begin() + counter);
+              v1->removeAdj(rend);
+              v1->replaceWeight(adjW);
+              break;
+            }
+          }
         }
       }
-      
-      vector<Edge*> :: iterator a = edge.begin();
+      vector<Edge*> :: iterator a = edge.begin(); //Remove the edge from the edge list
       while (a != edge.end()) {
         if (strcmp((*a) -> getStart() -> getName(), rstart) == 0 && strcmp((*a) -> getEnd() -> getName(), rend) == 0) {
           edge.erase(a);
@@ -161,10 +191,10 @@ int main() {
       }
       vector<Node*> :: iterator itr;
       for (itr = vertex.begin(); itr != vertex.end(); itr++) {
-        vector<char*> newVector = (*itr) -> getAdj();
-        vector<char*> :: iterator itt;
+        vector<Node*> newVector = (*itr) -> getAdj();
+        vector<Node*> :: iterator itt;
         for (itt = newVector.begin(); itt != newVector.end(); itt++) {
-          cout << (*itt)  << endl;
+          cout << (*itt)->getName()  << endl;
         }
       }
     }
@@ -235,6 +265,7 @@ int main() {
 
 
     else if (strcmp(in, "Shortest Path") == 0) { //With help from geeks for geeks
+      /*
       cout << "Enter start node" << endl;
       char* Start = new char[99];
       cin.getline(Start, 99);
@@ -254,6 +285,12 @@ int main() {
           temp1.push_back((*m));
         }
       }
+      */
+
+
+      
+
+
     }
 
     else if (strcmp(in, "Quit") == 0) {
@@ -265,10 +302,10 @@ int main() {
     
 
 bool checkConnect(Node* begin, Node* stop) {
-  vector<char*> newVector = begin->getAdj();
-  vector<char*> :: iterator n;
+  vector<Node*> newVector = begin->getAdj();
+  vector<Node*> :: iterator n;
   for (n = newVector.begin(); n != newVector.end(); n++) {
-    if (strcmp((*n), stop->getName()) == 0) {
+    if (strcmp((*n)->getName(), stop->getName()) == 0) {
       return true;
     }
     else {

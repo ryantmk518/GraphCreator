@@ -23,23 +23,39 @@ char* Node::getName() {
   return name;
 }
 
-void Node::setAdj(char* newAdj) {
+void Node::setAdj(Node* newAdj) {
   adj.push_back(newAdj);
 }
 
-vector<char*> Node::getAdj() {
+vector<Node*> Node::getAdj() {
   return adj;
 }
 
 void Node::removeAdj(char* remove) {
-  vector<char*> :: iterator ite1 = adj.begin();
+  vector<Node*> :: iterator ite1 = adj.begin();
   while (ite1 != adj.end()) {
-    if (strcmp((*ite1), remove) == 0) {
+    if (strcmp((*ite1)->getName(), remove) == 0) {
       adj.erase(ite1);
     }
     else {
       ite1++;
     }
   }
+}
+
+vector<int> Node::getWeight() {
+  return weights;
+}
+
+void Node::setWeight(int newWeight) {
+  weights.push_back(newWeight);
+}
+
+void Node::replaceWeight(vector<int> newW) {
+  weights = newW;
+}
+
+void Node::replaceAdj(vector<Node*> newA) {
+  adj = newA;
 }
 
