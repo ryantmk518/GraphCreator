@@ -6,7 +6,7 @@ using namespace std;
 
 //Edge class
 
-Edge::Edge(int newWeight, Node* newStart, Node* newEnd) {
+Edge::Edge(int newWeight, Node* newStart, Node* newEnd) { //Initialize weight, start node, end node
   weight = newWeight;
   start = newStart;
   end = newEnd;

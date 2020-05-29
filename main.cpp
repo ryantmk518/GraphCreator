@@ -13,7 +13,7 @@
 #include <cmath>
 
 
-//Graph Creator. Ryan Thammakhoune
+//Graph Creator. Ryan Thammakhoune. Enter vertex or node and remove vertex or node. Print will show adjacency table. Shortest Path will give you the shortest path from one node to the last. Brain is hurt!!!
 
 using namespace std;
 
@@ -61,13 +61,13 @@ int main() {
           last = *(it);
         }
       }
-      first->setAdj(last);
+      first->setAdj(last); //Add to adjency list
       if (valid1 == true && valid2 == true) {
         cout << "Enter weight of edge" << endl;
         char* weight = new char[99];
         cin.getline(weight, 99);
         int w = atoi (weight);
-        Edge* newEdge = new Edge(w, first, last);
+        Edge* newEdge = new Edge(w, first, last); //Add new edge
         edge.push_back(newEdge);
         first->setWeight(w);
       }
@@ -83,7 +83,7 @@ int main() {
       vector<Node*> :: iterator i = vertex.begin();
       bool found = false;
       while (i != vertex.end()) {
-        if (strcmp((*i) -> getName(), remove) == 0) {
+        if (strcmp((*i) -> getName(), remove) == 0) { //Erase the vertex
           temp = (*i);
           found = true;
           vertex.erase(i);
@@ -99,7 +99,7 @@ int main() {
         vector<int> adjWeight = (*ite2)->getWeight();
         int counting = -1;
         vector<Node*> :: iterator ite3;
-        for (ite3 = adjEdge.begin(); ite3 != adjEdge.end(); ite3++) {
+        for (ite3 = adjEdge.begin(); ite3 != adjEdge.end(); ite3++) { //Erase from adjency list and erase from weight list
           counting++;
           if ((*ite3) == temp) {
             adjEdge.erase(ite3);
@@ -169,7 +169,7 @@ int main() {
       }
       cout << '\n'<< endl;
       vector<Node*> :: iterator x;
-      for (x = vertex.begin(); x != vertex.end(); x++) { //Each row
+      for (x = vertex.begin(); x != vertex.end(); x++) { //Each row first put the name, then check if it is connected
         Node* newNode = (*x);
         cout << newNode->getName() << "   ";
         vector<Node*> :: iterator y;
@@ -298,7 +298,7 @@ int main() {
       Node* start = new Node(NULL);
       Node* end = new Node(NULL);
       vector<Node*> :: iterator ite5;
-      for (ite5 = vertex.begin(); ite5 != vertex.end(); ite5++) {
+      for (ite5 = vertex.begin(); ite5 != vertex.end(); ite5++) { //find start and end nodes
         if (strcmp((*ite5) -> getName(), in1) == 0) {
           start = (*ite5);
         }
@@ -333,7 +333,7 @@ bool checkConnect(Node* begin, Node* stop) {
   return false;
 }
 
-bool contains(vector<Node*> v, Node* node) {
+bool contains(vector<Node*> v, Node* node) { //See if node is in vector
   if (std::find(v.begin(), v.end(), node) != v.end()) {
     return true; 
   }
@@ -366,7 +366,7 @@ void dijkstra(vector<Node*> vertex, Node* start, Node* end) { //Dijkstra algorit
     fin = true;
     count = 0;
     min = std::numeric_limits < int > ::max();
-    for (vector <Node* > ::iterator it = sst.begin(); it != sst.end(); ++it) {
+    for (vector <Node* > ::iterator it = sst.begin(); it != sst.end(); ++it) { //Find paths
       count++;
       current = (*it);
       cLength = length.at(count - 1);
@@ -415,7 +415,7 @@ void dijkstra(vector<Node*> vertex, Node* start, Node* end) { //Dijkstra algorit
         return; 
       }
     }
-    if (next == end) {
+    if (next == end) { //Print shortest path
       cout << "Shortest Path: \n";
       for (vector<Node*> ::iterator it = nPath.begin(); it != nPath.end(); ++it) {
         cout << (*it) -> getName() << " ";
