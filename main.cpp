@@ -51,7 +51,7 @@ int main() {
       Node* first = new Node(NULL);
       Node* last = new Node(NULL);
       vector<Node*> :: iterator it;
-      for (it = vertex.begin(); it != vertex.end(); it++) {
+      for (it = vertex.begin(); it != vertex.end(); it++) { //Find start and end nodes
         if (strcmp((*it) ->  getName(), start) == 0) {
           valid1 = true;
           first = *(it);
@@ -163,7 +163,7 @@ int main() {
     else if (strcmp(in, "Print") == 0) { 
       cout << "Printing" << endl;
       cout << "    ";
-      vector<Node*> :: iterator iter;
+      vector<Node*> :: iterator iter; //Initially puts all the names in a row
       for (iter = vertex.begin(); iter != vertex.end(); iter++) {
         cout << (*iter) -> getName() << "   ";
       }
@@ -186,7 +186,7 @@ int main() {
       }
     }
 
-    else if (strcmp(in, "Test") == 0) {
+    else if (strcmp(in, "Test") == 0) { //Testing if it worked
       vector<Edge*> :: iterator iterator;
       for (iterator = edge.begin(); iterator != edge.end(); iterator++) {
         cout << (*iterator) -> getStart() -> getName() << ", " << (*iterator) -> getEnd() -> getName() << endl;
@@ -289,7 +289,7 @@ int main() {
       }
       */
 
-      char* in1 = new char[99];
+      char* in1 = new char[99]; //Find start and end nodes
       char* in2 = new char[99];
       cout << "Enter start node" << endl;
       cin.getline(in1, 99);
@@ -340,7 +340,7 @@ bool contains(vector<Node*> v, Node* node) {
   return false; 
 }
 
-void dijkstra(vector<Node*> vertex, Node* start, Node* end) {
+void dijkstra(vector<Node*> vertex, Node* start, Node* end) { //Dijkstra algorithm from Ethan Wang
   vector<vector<Node*>> path;
   vector<Node*> nPath;
   vector<Node*> sst;
@@ -420,7 +420,7 @@ void dijkstra(vector<Node*> vertex, Node* start, Node* end) {
       for (vector<Node*> ::iterator it = nPath.begin(); it != nPath.end(); ++it) {
         cout << (*it) -> getName() << " ";
       }
-      cout << "\n Total Weight: " << min << endl;
+      cout << '\n' << "Distance: " << min << endl;
       return; 
     }
   }
