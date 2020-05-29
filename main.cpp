@@ -8,7 +8,9 @@
 #include "stdlib.h"
 #include "assert.h"
 #include <climits>
-
+#include <limits>
+#include <algorithm>
+#include <cmath>
 
 
 //Graph Creator. Ryan Thammakhoune
@@ -16,8 +18,8 @@
 using namespace std;
 
 bool checkConnect(Node* begin, Node* stop);
-
-
+bool contains(vector<Node*> v, Node* node);
+void dijkstra(vector<Node*> vertex, Node* start, Node* end);
 
 
 int main() {
@@ -264,7 +266,7 @@ int main() {
       }*/
 
 
-    else if (strcmp(in, "Shortest Path") == 0) { //With help from geeks for geeks
+    else if (strcmp(in, "Shortest Path") == 0) { //With help from Ethan Wang
       /*
       cout << "Enter start node" << endl;
       char* Start = new char[99];
@@ -287,12 +289,28 @@ int main() {
       }
       */
 
+      char* in1 = new char[99];
+      char* in2 = new char[99];
+      cout << "Enter start node" << endl;
+      cin.getline(in1, 99);
+      cout << "Enter end node" << endl;
+      cin.getline(in2, 99);
+      Node* start = new Node(NULL);
+      Node* end = new Node(NULL);
+      vector<Node*> :: iterator ite5;
+      for (ite5 = vertex.begin(); ite5 != vertex.end(); ite5++) {
+        if (strcmp((*ite5) -> getName(), in1) == 0) {
+          start = (*ite5);
+        }
+        else if (strcmp((*ite5) -> getName(), in2) == 0) {
+          end = (*ite5);
+        }
+      }
 
-      
-
-
+      dijkstra(vertex, start, end);
     }
-
+  
+  
     else if (strcmp(in, "Quit") == 0) {
       quit = true;
       break;
@@ -315,3 +333,95 @@ bool checkConnect(Node* begin, Node* stop) {
   return false;
 }
 
+bool contains(vector<Node*> v, Node* node) {
+  if (std::find(v.begin(), v.end(), node) != v.end()) {
+    return true; 
+  }
+  return false; 
+}
+
+void dijkstra(vector<Node*> vertex, Node* start, Node* end) {
+  vector<vector<Node*>> path;
+  vector<Node*> nPath;
+  vector<Node*> sst;
+  vector<int> length;
+  vector<Node*> co;
+  vector<Node*> op;
+  op.push_back(start);
+  path.push_back(op);
+  sst.push_back(start);
+  length.push_back(0);
+  Node* current;
+  Node* next;
+  Node* previous;
+  int cLength;
+  int count;
+  int count2;
+  int min;
+  bool fin = false;
+  bool found;
+  bool pathFound = true;
+  while (fin == false) {
+    found = false;
+    fin = true;
+    count = 0;
+    min = std::numeric_limits < int > ::max();
+    for (vector <Node* > ::iterator it = sst.begin(); it != sst.end(); ++it) {
+      count++;
+      current = (*it);
+      cLength = length.at(count - 1);
+      co = current -> getAdj();
+      count2 = 0;
+      if (!co.empty()) {
+        fin = false;
+        for (vector<Node*> ::iterator it2 = co.begin(); it2 != co.end(); ++it2) {
+          count2++;
+          if (!contains(sst, (*it2))) {
+            if ((cLength + current -> getWeight().at(count2 - 1)) < min) {
+              min = cLength + current -> getWeight().at(count2 - 1); 
+              next = (*it2);
+              previous = current;
+              found = true; 
+            }
+          }
+        }
+      }
+    }
+    if (fin || !found) {
+      cout << "No Path \n";
+      return;
+    }
+    for (vector<vector<Node*>> ::iterator it = path.begin(); it != path.end(); ++it) {
+      op = (*it);
+      if (op.back() == previous) {
+        nPath = (*it);
+        nPath.push_back(next);
+        path.push_back(nPath);
+        length.push_back(min);
+        sst.push_back(next);
+        break; 
+      }
+    }
+    for (vector<Node*>:: iterator it = nPath.begin(); it != nPath.end(); ++it) {
+      bool exist = false;
+      for (vector<Node*>:: iterator it1 = vertex.begin(); it1 != vertex.end(); ++it1) {
+        if (strcmp((*it) -> getName(), (*it1) -> getName()) == 0) {
+          exist = true;
+          break; 
+        }
+      }
+      if (!exist) {
+        cout << "No Path \n";
+        return; 
+      }
+    }
+    if (next == end) {
+      cout << "Shortest Path: \n";
+      for (vector<Node*> ::iterator it = nPath.begin(); it != nPath.end(); ++it) {
+        cout << (*it) -> getName() << " ";
+      }
+      cout << "\n Total Weight: " << min << endl;
+      return; 
+    }
+  }
+}
